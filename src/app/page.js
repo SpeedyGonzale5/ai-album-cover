@@ -32,10 +32,10 @@ export default function Home() {
         <div className="glass-card rounded-3xl p-8 md:p-12">
           {/* Header */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+            <h1 className="text-5xl md:text-7xl font-extrabold text-black mb-4 tracking-tighter">
               AI Album Cover Generator
             </h1>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto leading-relaxed">
+            <p className="text-gray-700 text-xl max-w-3xl mx-auto leading-relaxed">
               Transform your music into stunning visual art. Upload any audio file and watch AI create beautiful album covers tailored to your sound.
             </p>
           </div>
