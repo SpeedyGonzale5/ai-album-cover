@@ -1,0 +1,90 @@
+'use client'
+
+import { useState } from 'react'
+import AudioUpload from '../components/AudioUpload'
+import AnalysisDisplay from '../components/AnalysisDisplay'
+import CoverGrid from '../components/CoverGrid'
+
+export default function Home() {
+  const [audioFile, setAudioFile] = useState(null)
+  const [analysis, setAnalysis] = useState(null)
+  const [covers, setCovers] = useState([])
+  const [isAnalyzing, setIsAnalyzing] = useState(false)
+  const [isGenerating, setIsGenerating] = useState(false)
+
+  const handleFileUpload = (file) => {
+    setAudioFile(file)
+    setAnalysis(null)
+    setCovers([])
+  }
+
+  const handleAnalysisComplete = (analysisData) => {
+    setAnalysis(analysisData)
+  }
+
+  const handleCoversGenerated = (generatedCovers) => {
+    setCovers(generatedCovers)
+  }
+
+  return (
+    <div className="min-h-screen bg-white flex items-center justify-center p-4">
+      <div className="w-full max-w-4xl">
+        <div className="glass-card rounded-3xl p-8 md:p-12">
+          {/* Header */}
+          <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+              AI Album Cover Generator
+            </h1>
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto leading-relaxed">
+              Transform your music into stunning visual art. Upload any audio file and watch AI create beautiful album covers tailored to your sound.
+            </p>
+          </div>
+
+          {/* Upload Section */}
+          <div className="mb-12">
+            <AudioUpload 
+              onFileUpload={handleFileUpload}
+              audioFile={audioFile}
+              onAnalysisComplete={handleAnalysisComplete}
+              isAnalyzing={isAnalyzing}
+              setIsAnalyzing={setIsAnalyzing}
+              onCoversGenerated={handleCoversGenerated}
+              setIsGenerating={setIsGenerating}
+            />
+          </div>
+
+          {/* Analysis Display */}
+          {analysis && (
+            <div className="mb-12 animate-fade-in">
+              <AnalysisDisplay analysis={analysis} />
+            </div>
+          )}
+
+          {/* Cover Grid */}
+          {covers.length > 0 && (
+            <div className="animate-slide-up">
+              <CoverGrid covers={covers} audioFile={audioFile} analysis={analysis} />
+            </div>
+          )}
+
+          {/* Loading States */}
+          {isAnalyzing && (
+            <div className="text-center py-12">
+              <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-500/20 border-t-blue-500 mb-4"></div>
+              <p className="text-gray-600 text-lg">Analyzing your music with AI...</p>
+              <p className="text-gray-500 text-sm mt-2">Detecting genre, mood, and energy</p>
+            </div>
+          )}
+
+          {isGenerating && (
+            <div className="text-center py-12">
+              <div className="inline-block animate-pulse rounded-full h-12 w-12 bg-gradient-to-r from-blue-500 to-purple-600 mb-4"></div>
+              <p className="text-gray-600 text-lg">Creating album covers...</p>
+              <p className="text-gray-500 text-sm mt-2">Generating 6 unique designs</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
