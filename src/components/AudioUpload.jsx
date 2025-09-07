@@ -5,6 +5,7 @@ import { analyzeAudio } from '../lib/audioAnalyzer'
 import { generateCovers } from '../lib/coverGenerator'
 import dynamic from 'next/dynamic'
 import SpinningDisc from './SpinningDisc'
+import { RainbowButton } from './magicui/rainbow-button'
 
 export default function AudioUpload({ 
   onFileUpload, 
@@ -213,21 +214,23 @@ export default function AudioUpload({
               Supports MP3, WAV, M4A, AAC
             </p>
             
-            {/* Orchestral Generation Button */}
-            <div className="mt-6 pt-4 border-t border-gray-200">
-              <button
-                onClick={(e) => {
-                  e.stopPropagation()
-                  onOrchestralGenerate && onOrchestralGenerate()
-                }}
-                className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
-              >
-                🎼 Generate Grand Orchestral Song
-              </button>
-              <p className="text-gray-400 text-xs mt-2">
-                Create AI orchestral music + matching album cover
-              </p>
-            </div>
+             {/* Orchestral Generation Button */}
+             <div className="mt-6 pt-4 border-t border-gray-200">
+               <RainbowButton
+                 onClick={(e) => {
+                   e.stopPropagation()
+                   onOrchestralGenerate && onOrchestralGenerate()
+                 }}
+                 className="w-full font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
+                 variant="default"
+                 size="lg"
+               >
+                 Generate Song
+               </RainbowButton>
+               <p className="text-gray-400 text-xs mt-2">
+                 Create AI orchestral music + matching album cover
+               </p>
+             </div>
           </div>
         </div>
       ) : (
