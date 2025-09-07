@@ -1,27 +1,37 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { editAlbumCover } from '../lib/geminiImageGenerator'
 import Modal from './Modal'
+import { imageUrlToBase64 } from '../lib/utils'
 
 export default function CoverEditor({ cover, analysis, onComplete, onCancel }) {
   const [editInstruction, setEditInstruction] = useState('')
   const [isEditing, setIsEditing] = useState(false)
-  const [editedImageUrl, setEditedImageUrl] = useState(cover.previewUrl)
-  const [editHistory, setEditHistory] = useState([cover.previewUrl])
+  const [editedImageUrl, setEditedImageUrl] = useState(null)
+  const [editHistory, setEditHistory] = useState([])
   const [currentHistoryIndex, setCurrentHistoryIndex] = useState(0)
   const [error, setError] = useState(null)
   const textareaRef = useRef(null)
 
+  useEffect(() => {
+    if (cover?.previewUrl) {
+      setEditedImageUrl(cover.previewUrl)
+      setEditHistory([cover.previewUrl])
+      setCurrentHistoryIndex(0)
+    }
+  }, [cover])
+
   const handleEdit = async () => {
-    if (!editInstruction.trim()) return
+    if (!editInstruction.trim() || !editedImageUrl) return
 
     setIsEditing(true)
     setError(null)
 
     try {
+      const imageBase64 = await imageUrlToBase64(editedImageUrl);
       const editedImage = await editAlbumCover(
-        editedImageUrl,
+        imageBase64,
         editInstruction,
         analysis
       )

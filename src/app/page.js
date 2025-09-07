@@ -5,6 +5,10 @@ import dynamic from 'next/dynamic'
 import AudioUpload from '../components/AudioUpload'
 import AnalysisDisplay from '../components/AnalysisDisplay'
 import CoverGrid from '../components/CoverGrid'
+import CDBookshelf from '../components/CDBookshelf'
+import CDOptionsModal from '../components/CDOptionsModal'
+import MusicVisualizer from '../components/MusicVisualizer'
+import CoverEditor from '../components/CoverEditor'
 import MusicGenerator from '../components/MusicGenerator'
 import MusicPlayer from '../components/MusicPlayer'
 import Modal from '../components/Modal'
@@ -25,6 +29,10 @@ export default function Home() {
   const [isCardVisible, setIsCardVisible] = useState(false)
   const [isGeneratingOrchestral, setIsGeneratingOrchestral] = useState(false)
   const [orchestralContent, setOrchestralContent] = useState(null)
+  const [selectedCover, setSelectedCover] = useState(null)
+  const [showOptions, setShowOptions] = useState(false)
+  const [showVisualizer, setShowVisualizer] = useState(false)
+  const [editingCover, setEditingCover] = useState(null)
 
   const handleFileUpload = (file) => {
     setAudioFile(file)
@@ -58,6 +66,38 @@ export default function Home() {
     setAnalysis(null)
     setCovers([])
     setOrchestralContent(null)
+    setSelectedCover(null)
+    setShowOptions(false)
+    setShowVisualizer(false)
+    setEditingCover(null)
+  }
+
+  const handleCDClick = (cover) => {
+    setSelectedCover(cover)
+    setShowOptions(true)
+  }
+
+  const handleEdit = (cover) => {
+    setShowOptions(false)
+    setEditingCover(cover)
+  }
+
+  const handleVisualizer = (cover) => {
+    setShowOptions(false)
+    setSelectedCover(cover)
+    setShowVisualizer(true)
+  }
+
+  const handleEditComplete = (editedCover) => {
+    const updatedCovers = covers.map(c => 
+      c.id === editedCover.id ? editedCover : c
+    )
+    setCovers(updatedCovers)
+    setEditingCover(null)
+  }
+
+  const handleEditCancel = () => {
+    setEditingCover(null)
   }
 
   const handleOrchestralGenerate = async () => {
@@ -172,13 +212,31 @@ export default function Home() {
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         {analysis && (
-          <div className="mb-12">
-            <AnalysisDisplay analysis={analysis} />
+          <div className="compact-analysis mb-8">
+            <div className="analysis-grid">
+              <div>
+                <span className="text-sm font-medium text-gray-600">Genre:</span>
+                <div className="text-lg font-bold">{analysis.genre?.join(', ') || 'Unknown'}</div>
+              </div>
+              <div>
+                <span className="text-sm font-medium text-gray-600">Mood:</span>
+                <div className="text-lg font-bold">{analysis.mood || 'Unknown'}</div>
+              </div>
+              <div>
+                <span className="text-sm font-medium text-gray-600">Energy:</span>
+                <div className="text-lg font-bold">{analysis.energy || 'Unknown'}</div>
+              </div>
+            </div>
           </div>
         )}
+        
         {covers && covers.length > 0 && (
-          <div className="mb-16">
-            <CoverGrid covers={covers} audioFile={audioFile} analysis={analysis} />
+          <div className="bookshelf-showcase mb-16">
+            <h2 className="text-2xl font-bold text-center mb-6">Your Album Collection</h2>
+            <CDBookshelf 
+              covers={covers} 
+              onCDClick={handleCDClick}
+            />
           </div>
         )}
         
@@ -197,13 +255,35 @@ export default function Home() {
           </div>
         )}
         
-        {/* Show regular music generator for uploaded audio files */}
-        {analysis && !orchestralContent && (
-          <div className="border-t border-gray-200 pt-12">
-            <MusicGenerator analysis={analysis} audioFile={audioFile} />
-          </div>
-        )}
       </Modal>
+      
+      {/* CD Options Modal */}
+      {showOptions && selectedCover && (
+        <CDOptionsModal 
+          cover={selectedCover}
+          onEdit={handleEdit}
+          onVisualizer={handleVisualizer}
+          onClose={() => setShowOptions(false)}
+        />
+      )}
+      
+      {/* Music Visualizer */}
+      {showVisualizer && selectedCover && (
+        <MusicVisualizer 
+          cover={selectedCover}
+          onClose={() => setShowVisualizer(false)}
+        />
+      )}
+      
+      {/* Cover Editor */}
+      {editingCover && (
+        <CoverEditor 
+          cover={editingCover}
+          analysis={analysis}
+          onComplete={handleEditComplete}
+          onCancel={handleEditCancel}
+        />
+      )}
     </div>
   )
 }

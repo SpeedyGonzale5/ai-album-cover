@@ -91,6 +91,274 @@
     z-index: 5;
     margin-bottom: -100px; /* Push CD down so it peeks out from bottom */
   }
+
+  /* New compact analysis styles */
+  .compact-analysis {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(15px);
+    padding: 12px 24px;
+    border-radius: 16px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+
+  .analysis-grid {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    gap: 20px;
+    align-items: center;
+  }
+
+  /* 3D bookshelf styles */
+  .cd-bookshelf {
+    perspective: 1500px;
+    padding: 40px;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 20px;
+    min-height: 300px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .cd-collection {
+    display: flex;
+    gap: 30px;
+    align-items: flex-end;
+    transform-style: preserve-3d;
+  }
+
+  /* Enhanced CD styles */
+  .artwork {
+    width: 8em;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 .4em .8em rgba(0,0,0,.3);
+    position: relative;
+  }
+
+  .artwork:hover {
+    transform: scale(1.15) translateY(-15px);
+    box-shadow: 0 .8em 1.5em rgba(0,0,0,.4);
+  }
+
+  .artwork img {
+    width: 100%;
+    height: auto;
+    animation: spin 4s infinite linear;
+    border-radius: 50%;
+  }
+
+  .cd-label {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 600;
+    white-space: nowrap;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+
+  /* Compact music player */
+  .compact-music-section {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(20px);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 1000;
+  }
+
+  /* Options modal */
+  .cd-options-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+  }
+
+  .options-container {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    position: relative;
+    max-width: 400px;
+    text-align: center;
+  }
+
+  .selected-cover-display {
+    margin-bottom: 30px;
+  }
+
+  .selected-cover-display .artwork {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 15px auto;
+  }
+
+  .selected-cover-display h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+  }
+
+  .action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .action-btn {
+    display: block;
+    width: 100%;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 12px;
+    background: #f8f9fa;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+  }
+
+  .action-btn:hover {
+    background: #e9ecef;
+    transform: translateY(-2px);
+  }
+
+  .action-btn span {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .action-btn small {
+    color: #666;
+    font-size: 0.85em;
+  }
+
+  .close-options {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #999;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .close-options:hover {
+    color: #333;
+  }
+
+  /* Visualizer styles */
+  .visualizer-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: 3000;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #visualizer-canvas {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+  }
+
+  .visualizer-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(20px);
+    padding: 20px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+  }
+
+  .now-playing {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .mini-cover {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .mini-cover-container {
+    position: relative;
+    width: 50px;
+    height: 50px;
+  }
+
+  .mini-cover.spinning {
+    animation: spin 3s infinite linear;
+  }
+
+  .visualizer-controls button {
+    background: #fff;
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .visualizer-controls button:hover {
+    background: #f0f0f0;
+    transform: translateY(-2px);
+  }
 }
 
 body {
@@ -113,6 +381,55 @@ body {
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+/* Enhanced CD Artwork Styles */
+.artwork {
+  display: inline-block;
+  width: 15em;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;	
+  box-shadow: 0 .3em .7em rgba(0,0,0,.25);
+  margin: 1em;
+  
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+}
+
+.artwork:before {
+  content: ''; 
+  position: absolute; 
+  width: 100%; 
+  height: 100%;
+  z-index: 2;
+  background: url(https://res.cloudinary.com/amogl/image/upload/v1489850644/Codepen/Disks/shine.png) center no-repeat;
+  background-size: cover;
+  mix-blend-mode: overlay;
+  border-radius: 50%;
+}
+
+.artwork:after {
+  content: '';
+  padding: .5em;
+  background: white;
+  z-index: 10;
+  position: absolute;
+  top: 50%; 
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  box-shadow: inset 0 .2em .2em rgba(0,0,0,.25);
+}
+
+.artwork img {
+  display: block;
+  width: 100%; 
+  height: auto;
+  animation: spin 3s infinite linear;
+  border-radius: 50%;
 }
 
 
