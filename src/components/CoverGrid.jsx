@@ -26,7 +26,7 @@ export default function CoverGrid({ covers, audioFile, analysis }) {
     <div className="space-y-10">
       <div className="text-center">
         <h2 className="text-3xl font-bold text-black tracking-tighter mb-2">Generated Album Covers</h2>
-        <p className="text-gray-600">6 unique AI-generated designs inspired by your music</p>
+        <p className="text-gray-600">3 unique AI-generated designs inspired by your music</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

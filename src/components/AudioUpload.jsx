@@ -13,7 +13,8 @@ export default function AudioUpload({
   isAnalyzing,
   setIsAnalyzing,
   onCoversGenerated,
-  setIsGenerating
+  setIsGenerating,
+  onOrchestralGenerate
 }) {
   const [isDragOver, setIsDragOver] = useState(false)
   const [progress, setProgress] = useState(0)
@@ -211,16 +212,31 @@ export default function AudioUpload({
             <p className="text-gray-400 text-xs mt-4">
               Supports MP3, WAV, M4A, AAC
             </p>
+            
+            {/* Orchestral Generation Button */}
+            <div className="mt-6 pt-4 border-t border-gray-200">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onOrchestralGenerate && onOrchestralGenerate()
+                }}
+                className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
+              >
+                🎼 Generate Grand Orchestral Song
+              </button>
+              <p className="text-gray-400 text-xs mt-2">
+                Create AI orchestral music + matching album cover
+              </p>
+            </div>
           </div>
         </div>
       ) : (
         <div className="glass-card-inner rounded-2xl p-6 max-w-md mx-auto">
           <div className="flex items-center space-x-4">
-            <div className="w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 relative">
-              <SpinningDisc small />
+            <div className="w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 relative bg-gray-100">
               <button
                 onClick={togglePlayback}
-                className="absolute inset-0 flex items-center justify-center text-white text-2xl"
+                className="absolute inset-0 flex items-center justify-center text-gray-600 text-2xl"
               >
                 {isPlaying ? '⏸️' : '▶️'}
               </button>

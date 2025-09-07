@@ -35,18 +35,6 @@ export async function POST(request) {
       {
         name: 'Abstract',
         description: 'Flowing organic shapes and dynamic composition'
-      },
-      {
-        name: 'Geometric',
-        description: 'Sharp angles and structured patterns'
-      },
-      {
-        name: 'Atmospheric',
-        description: 'Dreamy blurred elements with depth'
-      },
-      {
-        name: 'Typography',
-        description: 'Bold text-focused design with striking fonts'
       }
     ]
 

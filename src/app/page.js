@@ -5,8 +5,11 @@ import dynamic from 'next/dynamic'
 import AudioUpload from '../components/AudioUpload'
 import AnalysisDisplay from '../components/AnalysisDisplay'
 import CoverGrid from '../components/CoverGrid'
+import MusicGenerator from '../components/MusicGenerator'
+import MusicPlayer from '../components/MusicPlayer'
 import Modal from '../components/Modal'
 import NeomorphicAura from '../components/NeomorphicAura'
+import { generateOrchestralContent } from '../lib/orchestralGenerator'
 
 // const Threads = dynamic(() => import('../components/Threads'), {
 //   ssr: false,
@@ -20,6 +23,8 @@ export default function Home() {
   const [isGenerating, setIsGenerating] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isCardVisible, setIsCardVisible] = useState(false)
+  const [isGeneratingOrchestral, setIsGeneratingOrchestral] = useState(false)
+  const [orchestralContent, setOrchestralContent] = useState(null)
 
   const handleFileUpload = (file) => {
     setAudioFile(file)
@@ -52,6 +57,25 @@ export default function Home() {
     setAudioFile(null)
     setAnalysis(null)
     setCovers([])
+    setOrchestralContent(null)
+  }
+
+  const handleOrchestralGenerate = async () => {
+    setIsGeneratingOrchestral(true)
+    
+    try {
+      const result = await generateOrchestralContent(10000) // 10 second orchestral piece
+      setOrchestralContent(result)
+      setAnalysis(result.analysis)
+      // Use the covers array from the API response
+      setCovers(result.covers || [])
+      setIsModalOpen(true)
+    } catch (error) {
+      console.error('Orchestral generation failed:', error)
+      alert(`Orchestral generation failed: ${error.message}`)
+    } finally {
+      setIsGeneratingOrchestral(false)
+    }
   }
 
   return (
@@ -95,6 +119,7 @@ export default function Home() {
               setIsAnalyzing={setIsAnalyzing}
               onCoversGenerated={handleCoversGenerated}
               setIsGenerating={setIsGenerating}
+              onOrchestralGenerate={handleOrchestralGenerate}
             />
           </div>
 
@@ -111,7 +136,16 @@ export default function Home() {
             <div className="text-center py-12">
               <div className="inline-block animate-pulse rounded-full h-12 w-12 bg-gradient-to-r from-blue-500 to-purple-600 mb-4"></div>
               <p className="text-gray-600 text-lg">Creating album covers...</p>
-              <p className="text-gray-500 text-sm mt-2">Generating 6 unique designs</p>
+              <p className="text-gray-500 text-sm mt-2">Generating 3 unique designs</p>
+            </div>
+          )}
+
+          {isGeneratingOrchestral && (
+            <div className="text-center py-12">
+              <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-purple-500/20 border-t-purple-500 mb-4"></div>
+              <p className="text-gray-600 text-lg">Creating grand orchestral symphony...</p>
+              <p className="text-gray-500 text-sm mt-2">Generating music & matching album cover</p>
+              <p className="text-gray-400 text-xs mt-1">This may take 60-90 seconds</p>
             </div>
           )}
 
@@ -142,9 +176,31 @@ export default function Home() {
             <AnalysisDisplay analysis={analysis} />
           </div>
         )}
-        {covers.length > 0 && (
-          <div>
+        {covers && covers.length > 0 && (
+          <div className="mb-16">
             <CoverGrid covers={covers} audioFile={audioFile} analysis={analysis} />
+          </div>
+        )}
+        
+        {/* Show orchestral music player if available */}
+        {orchestralContent && (
+          <div className="border-t border-gray-200 pt-12 mb-16">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-black mb-2">Your Grand Orchestral Symphony</h2>
+              <p className="text-gray-600">AI-generated orchestral music with matching album cover</p>
+            </div>
+            <MusicPlayer 
+              track={orchestralContent.music}
+              analysis={orchestralContent.analysis}
+              onClose={() => {}}
+            />
+          </div>
+        )}
+        
+        {/* Show regular music generator for uploaded audio files */}
+        {analysis && !orchestralContent && (
+          <div className="border-t border-gray-200 pt-12">
+            <MusicGenerator analysis={analysis} audioFile={audioFile} />
           </div>
         )}
       </Modal>
