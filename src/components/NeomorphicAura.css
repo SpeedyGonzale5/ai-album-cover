@@ -1,0 +1,247 @@
+/* Neomorphic Aura Animation Styles */
+
+.neo {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: linear-gradient(
+    120deg, 
+    rgba(133, 143, 167, 0) 30%, 
+    rgba(133, 143, 167, 0.17)
+  );
+}
+
+.neo-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  position: relative;
+  z-index: 10;
+  
+  background: radial-gradient(
+    circle at 20% 20%, 
+    rgba(100, 149, 237, 0.9) 25%, 
+    rgba(173, 216, 230, 0.7)
+  ),
+  linear-gradient(
+    120deg,
+    rgba(135, 206, 250, 0.8), 
+    rgba(70, 130, 180, 0.6)
+  );
+  
+  box-shadow: 
+    inset 15px 20px 50px -10px rgba(255, 255, 255, 1),
+    inset -25px -35px 15px -32px rgba(70, 130, 180, 0.6),
+    inset -25px -35px 50px -20px rgba(100, 149, 237, 0.5),
+    -15px -20px 25px -2px rgba(255, 255, 255, 1),
+    15px 25px 15px -18px rgba(70, 130, 180, 0.6),
+    15px 30px 30px -12px rgba(100, 149, 237, 0.4);
+  
+  animation: CenterPulse 4s ease-in-out infinite;
+}
+
+.neo-center:before {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  z-index: 2;
+  
+  top: -100%;
+  left: -100%;
+  bottom: -100%;
+  right: -100%;
+  
+  backdrop-filter: blur(7px);
+}
+
+.neo-center:after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+  
+  left: 5%;
+  top: 5%;
+  right: 5%;
+  bottom: 5%;
+  
+  border-radius: 50%;
+  filter: blur(15px);
+  
+  background: radial-gradient(
+    circle at 75% 75%, 
+    rgba(135, 206, 250, 0.9) 25%, 
+    rgba(100, 149, 237, 0.6)
+  );
+  
+  opacity: 0;
+  
+  animation: NeoInnerShadowAnimation 3s ease infinite;
+}
+
+.neo-triangle {
+  position: relative;
+  z-index: 3;
+  color: rgba(70, 130, 180, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 0 10px rgba(135, 206, 250, 0.7));
+}
+
+.neo-waves {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  transform: translate(-50%, -50%) scale(0.5);
+  border-radius: 50%;
+  
+  opacity: 0;
+  
+  animation: WaveMainAnimation 24s linear infinite;
+}
+
+.neo-waves-2 {
+  animation-delay: 1.5s;
+}
+
+.neo-waves-3 {
+  animation-delay: 3s;
+}
+
+.neo-waves-4 {
+  animation-delay: 4.5s;
+}
+
+.neo-waves-5 {
+  animation-delay: 6s;
+}
+
+.neo-waves-6 {
+  animation-delay: 7.5s;
+  width: 400px;
+  height: 400px;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.neo-waves-7 {
+  animation-delay: 9s;
+  width: 600px;
+  height: 600px;
+  transform: translate(-50%, -50%) scale(1.5);
+}
+
+.neo-waves:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%) scale(0.5);
+  border-radius: 50%;
+  
+  box-shadow:
+    inset -18px -25px 25px -10px rgba(255, 255, 255, 1),
+    inset 18px 25px 25px -10px rgba(70, 130, 180, 0.6),
+    inset 15px 20px 25px -10px rgba(255, 255, 255, 1),
+    inset -25px -35px 15px -32px rgba(70, 130, 180, 0.6),
+    inset -25px -35px 50px -20px rgba(100, 149, 237, 0.5),
+    -15px -20px 25px -2px rgba(255, 255, 255, 1),
+    18px 25px 18px -18px rgba(70, 130, 180, 0.6),
+    18px 30px 30px -12px rgba(100, 149, 237, 0.4);
+  
+  animation: WaveBeforeAnimation 12s 0.2s linear infinite;
+}
+
+.neo-waves:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%) scale(0.5);
+  border-radius: 50%;
+  
+  box-shadow:
+    inset -18px -25px 25px -10px rgba(255, 255, 255, 1),
+    inset 18px 25px 25px -10px rgba(70, 130, 180, 0.6),
+    inset 15px 20px 25px -10px rgba(255, 255, 255, 1),
+    inset -25px -35px 15px -32px rgba(70, 130, 180, 0.6),
+    inset -25px -35px 50px -20px rgba(100, 149, 237, 0.5),
+    -15px -20px 25px -2px rgba(255, 255, 255, 1),
+    18px 25px 18px -18px rgba(70, 130, 180, 0.6),
+    18px 30px 30px -12px rgba(100, 149, 237, 0.4);
+  
+  animation: WaveBeforeAnimation -10s 6s linear infinite;
+}
+
+@keyframes CenterPulse {
+  0%, 100% { 
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% { 
+    transform: scale(1.1);
+    filter: brightness(1.2);
+  }
+}
+
+@keyframes NeoInnerShadowAnimation {
+  0% { opacity: 0; }
+  50% { opacity: 0.8; }
+  100% { opacity: 0; }
+}
+
+@keyframes WaveMainAnimation {
+  15% { opacity: 0.7; }
+  30% { opacity: 0.5; }
+  45% { opacity: 0.4; }
+  60% { opacity: 0.3; }
+  75% { opacity: 0.2; }
+  90% { opacity: 0.1; }
+}
+
+@keyframes WaveBeforeAnimation {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+  10% { 
+    opacity: 0.8; 
+  }
+  20% {
+    opacity: 0.6;
+  }
+  35% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  65% {
+    opacity: 0.3;
+  }
+  80% {
+    opacity: 0.2;
+  }
+  90% {
+    opacity: 0.1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(12);
+  }
+}
