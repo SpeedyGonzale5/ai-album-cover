@@ -19,7 +19,7 @@ export default function Home() {
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [isGenerating, setIsGenerating] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [isCardVisible, setIsCardVisible] = useState(true)
+  const [isCardVisible, setIsCardVisible] = useState(false)
 
   const handleFileUpload = (file) => {
     setAudioFile(file)
@@ -127,11 +127,11 @@ export default function Home() {
       </div>
 
       <div 
-        className={`absolute z-20 text-center transition-all duration-700 ease-in-out ${
+        className={`absolute z-20 w-full text-center top-[25%] transition-all duration-700 ease-in-out ${
           !isCardVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-105 pointer-events-none'
         }`}
       >
-        <h2 className="text-3xl font-bold text-gray-800/80 drop-shadow-lg cursor-pointer">
+        <h2 className="text-5xl md:text-6xl font-extrabold text-gray-800/80 drop-shadow-lg cursor-pointer">
           Press to Generate
         </h2>
       </div>
