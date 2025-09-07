@@ -9,22 +9,72 @@ export default function DownloadButton({ cover, audioFile, analysis }) {
   const generateAndDownload = async (format) => {
     setIsGenerating(true)
     
-    // In a real app, this would be an API call to a backend service
-    // For this example, we'll simulate it
-    await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000))
+    try {
+      let downloadUrl;
+      
+      if (cover.type === 'ai-generated' && cover.previewUrl.startsWith('data:')) {
+        // For AI-generated images (base64 data URLs)
+        downloadUrl = cover.previewUrl;
+      } else if (cover.previewUrl && cover.previewUrl.includes('<svg')) {
+        // For SVG content
+        const svgBlob = new Blob([cover.previewUrl], { type: 'image/svg+xml' });
+        downloadUrl = URL.createObjectURL(svgBlob);
+      } else {
+        // Fallback
+        downloadUrl = cover.downloadUrl || cover.previewUrl;
+      }
 
-    const blob = new Blob([cover.previewUrl], { type: format === 'svg' ? 'image/svg+xml' : `image/${format}` });
-    const url = URL.createObjectURL(blob);
-    
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `${audioFile.name.replace(/\.[^/.]+$/, "")}-${cover.style}.${format}`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    URL.revokeObjectURL(url)
-    
-    setIsGenerating(false)
+      if (cover.type === 'ai-generated' && format !== 'png') {
+        // Convert base64 image to different formats using canvas
+        await convertAndDownload(downloadUrl, format);
+      } else {
+        // Direct download
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = `${audioFile.name.replace(/\.[^/.]+$/, "")}-${cover.style.replace(/\s+/g, '-')}.${format}`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        
+        if (downloadUrl.startsWith('blob:')) {
+          URL.revokeObjectURL(downloadUrl);
+        }
+      }
+    } catch (error) {
+      console.error('Download failed:', error);
+      alert('Download failed. Please try again.');
+    } finally {
+      setIsGenerating(false);
+    }
+  }
+
+  const convertAndDownload = async (dataUrl, format) => {
+    return new Promise((resolve) => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      
+      img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        
+        const mimeType = format === 'jpg' ? 'image/jpeg' : `image/${format}`;
+        canvas.toBlob((blob) => {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `${audioFile.name.replace(/\.[^/.]+$/, "")}-${cover.style.replace(/\s+/g, '-')}.${format}`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+          resolve();
+        }, mimeType, 0.95);
+      };
+      
+      img.src = dataUrl;
+    });
   }
 
   return (

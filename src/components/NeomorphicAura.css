@@ -437,16 +437,16 @@
     opacity: 0;
     transform: translate(-50%, -50%) scale(1);
   }
-  15% { 
-    opacity: 0.4; 
+  10% { /* Earlier and stronger appearance */
+    opacity: 0.5; 
   }
-  95% {
-    opacity: 0.15;
-    transform: translate(-50%, -50%) scale(5.5);
+  90% { /* Lasts longer and expands further */
+    opacity: 0.2;
+    transform: translate(-50%, -50%) scale(6);
   }
   100% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(6);
+    transform: translate(-50%, -50%) scale(7); /* Maximum expansion */
   }
 }
 

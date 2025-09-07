@@ -1,0 +1,161 @@
+/* Advanced Spinning Disc Animation Styles */
+
+@-webkit-keyframes rolc {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes rolc {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes uplo {
+  from {
+    -webkit-transform: translateY(80px);
+            transform: translateY(80px);
+  }to {
+    -webkit-transform: translateY(0px);
+            transform: translateY(0px);
+  }
+}
+
+@keyframes uplo {
+  from {
+    -webkit-transform: translateY(80px);
+            transform: translateY(80px);
+  }to {
+    -webkit-transform: translateY(0px);
+            transform: translateY(0px);
+  }
+}
+
+@-webkit-keyframes downlo {
+  from {
+    -webkit-transform: translateY(0px);
+            transform: translateY(0px);
+  }to {
+    -webkit-transform: translateY(80px);
+            transform: translateY(80px);
+  }
+}
+
+@keyframes downlo {
+  from {
+    -webkit-transform: translateY(0px);
+            transform: translateY(0px);
+  }to {
+    -webkit-transform: translateY(80px);
+            transform: translateY(80px);
+  }
+}
+
+.disc {
+  position: relative;
+  margin: 0 auto;
+  margin-top: 0px; /* Reset positioning */
+  width: 200px; 
+  height: 200px; 
+  z-index: 5; /* Below the cover box */
+}
+
+.disc-small {
+  width: 60px;
+  height: 60px;
+}
+
+.disc-small > .disc_cover {
+  width: 50px;
+  height: 50px;
+}
+
+.disc-small > .disc_cover:before {
+  left: 20px;
+  top: 20px;
+  width: 10px;
+  height: 10px;
+}
+
+.disc-small:before {
+  top: 25px;
+  margin-left: -30px;
+  width: 60px;
+  height: 60px;
+}
+
+.disc-small:after {
+  top: 25px;
+  margin-left: -20px;
+  width: 40px;
+  height: 10px;
+}
+
+.disc > .disc_cover {
+  position: relative;
+  z-index: 0;
+  top: 0;
+  margin-left: auto; /* Center it */
+  margin-right: auto; /* Center it */
+  width: 190px;
+  height: 190px;
+  border-radius: 1000em;
+  border: 5px solid #ffffff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  background-image: url("http://upload.wikimedia.org/wikipedia/zh/a/a4/After_Dark_CD_Cover.jpg");
+  background-position: 50% 50%;
+  -webkit-transform: translateY(80px);
+          transform: translateY(80px);
+  -webkit-animation: downlo 1s 1;
+          animation: downlo 1s 1;
+}
+
+.disc > .disc_cover:before {
+  position: relative;
+  display: block;
+  content: '';
+  width: 40px;
+  height: 40px;
+  background: #000000;
+  border-radius: 1000em;
+  left: 75px;
+  top: 75px;
+  border: 5px solid #ffffff;
+  box-sizing: border-box;
+}
+
+.disc:before, .disc:after {
+  position: absolute;
+  content: '';
+  display: block;
+  box-sizing: border-box;
+  -webkit-transform-origin: 50% 50%;
+          transform-origin: 50% 50%;
+}
+
+/* Disable internal slit overlays; handled by .slit-mask now */
+.disc:before {
+  content: none;
+}
+
+.disc:after {
+  content: none;
+}
+
+.disc {
+  cursor: pointer;
+}
+
+.disc > .disc_cover {
+  -webkit-animation: rolc 4s linear infinite;
+          animation: rolc 4s linear infinite;
+}

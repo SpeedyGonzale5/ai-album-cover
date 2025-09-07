@@ -3,6 +3,8 @@
 import { useState, useRef, useEffect } from 'react'
 import { analyzeAudio } from '../lib/audioAnalyzer'
 import { generateCovers } from '../lib/coverGenerator'
+import dynamic from 'next/dynamic'
+import SpinningDisc from './SpinningDisc'
 
 export default function AudioUpload({ 
   onFileUpload, 
@@ -140,6 +142,36 @@ export default function AudioUpload({
     return `${mins}:${secs.toString().padStart(2, '0')}`
   }
 
+  const CDIcon = ({ small }) => {
+    const size = small ? 'w-16 h-16' : 'w-24 h-24';
+    const inset = small ? 'inset-1' : 'inset-2';
+    const holeSize = small ? 'w-5 h-5' : 'w-6 h-6';
+
+    return (
+      <div className={`relative ${size}`}>
+        <div 
+          className="absolute inset-0 rounded-full"
+          style={{
+            backgroundImage: 'conic-gradient(from 180deg at 50% 50%, #ffc4d1, #a1e8ff, #d2baff, #fff9b0, #a8ffc1, #ffc4d1)',
+            animation: 'spin 4s linear infinite',
+          }}
+        ></div>
+        <div className={`absolute ${inset} bg-gray-100 rounded-full`} 
+          style={{
+            background: 'radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(220,220,230,0.8) 100%)',
+            boxShadow: 'inset 0 0 5px rgba(0,0,0,0.1)'
+          }}
+        ></div>
+        <div 
+          className={`absolute top-1/2 left-1/2 ${holeSize} -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-gray-200`}
+          style={{
+            background: 'linear-gradient(135deg, #e0e0e0, #ffffff)',
+          }}
+        ></div>
+      </div>
+    );
+  };
+
   return (
     <div className="text-center">
       <input
@@ -152,7 +184,7 @@ export default function AudioUpload({
       
       {!audioFile ? (
         <div
-          className={`audio-circle w-80 h-80 mx-auto rounded-full flex flex-col items-center justify-center cursor-pointer transition-all duration-300 ${
+          className={`glass-card-inner w-full max-w-sm mx-auto p-6 flex flex-col items-center justify-start rounded-2xl transition-all duration-300 ${ 
             isDragOver ? 'drag-over scale-105' : 'hover:scale-105'
           }`}
           onDragOver={handleDragOver}
@@ -160,24 +192,32 @@ export default function AudioUpload({
           onDrop={handleDrop}
           onClick={() => fileInputRef.current?.click()}
         >
-          <div className="mb-6">
-            <CDIcon />
+          {/* CD Slit Container */}
+          <div className="cd-slit-container">
+            {/* CD positioned in half-slit */}
+            <div className="cd-positioning">
+              <SpinningDisc />
+            </div>
           </div>
-          <h3 className="text-xl font-semibold text-gray-700 mb-2">
-            Drop your music here
-          </h3>
-          <p className="text-gray-500 text-sm px-8 leading-relaxed">
-            Drag & drop an audio file or click to browse
-          </p>
-          <p className="text-gray-400 text-xs mt-4">
-            Supports MP3, WAV, M4A, AAC
-          </p>
+
+          {/* Text Content - Below the CD area */}
+          <div className="text-center w-full">
+            <h3 className="text-xl font-semibold text-gray-700 mb-2">
+              Drop your music here
+            </h3>
+            <p className="text-gray-500 text-sm px-6 leading-relaxed">
+              Drag & drop an audio file or click to browse
+            </p>
+            <p className="text-gray-400 text-xs mt-4">
+              Supports MP3, WAV, M4A, AAC
+            </p>
+          </div>
         </div>
       ) : (
         <div className="glass-card-inner rounded-2xl p-6 max-w-md mx-auto">
           <div className="flex items-center space-x-4">
             <div className="w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 relative">
-              <CDIcon small />
+              <SpinningDisc small />
               <button
                 onClick={togglePlayback}
                 className="absolute inset-0 flex items-center justify-center text-white text-2xl"
@@ -244,33 +284,3 @@ export default function AudioUpload({
     </div>
   )
 }
-
-const CDIcon = ({ small }) => {
-  const size = small ? 'w-16 h-16' : 'w-24 h-24';
-  const inset = small ? 'inset-1' : 'inset-2';
-  const holeSize = small ? 'w-5 h-5' : 'w-6 h-6';
-
-  return (
-    <div className={`relative ${size}`}>
-      <div 
-        className="absolute inset-0 rounded-full"
-        style={{
-          backgroundImage: 'conic-gradient(from 180deg at 50% 50%, #ffc4d1, #a1e8ff, #d2baff, #fff9b0, #a8ffc1, #ffc4d1)',
-          animation: 'spin 4s linear infinite',
-        }}
-      ></div>
-      <div className={`absolute ${inset} bg-gray-100 rounded-full`} 
-        style={{
-          background: 'radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(220,220,230,0.8) 100%)',
-          boxShadow: 'inset 0 0 5px rgba(0,0,0,0.1)'
-        }}
-      ></div>
-      <div 
-        className={`absolute top-1/2 left-1/2 ${holeSize} -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-gray-200`}
-        style={{
-          background: 'linear-gradient(135deg, #e0e0e0, #ffffff)',
-        }}
-      ></div>
-    </div>
-  );
-};
