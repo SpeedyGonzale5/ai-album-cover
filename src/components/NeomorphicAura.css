@@ -1,4 +1,15 @@
-/* Neomorphic Aura Animation Styles */
+/* Advanced Neomorphic Audio Wave Animation */
+
+/* Color Variables */
+:root {
+  --body-color: #858fa7;
+  --light: #fbfbfb;
+  --white: #fff;
+  --dark: #858fa7;
+  --size: 170px;
+  --blue-light: rgba(135, 206, 250, 0.6);
+  --blue-mid: rgba(173, 216, 230, 0.4);
+}
 
 .neo {
   width: 100%;
@@ -17,38 +28,60 @@
   );
 }
 
+/* Enhanced Central Element */
 .neo-center {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 400px;
-  height: 400px;
+  width: var(--size);
+  height: var(--size);
   border-radius: 50%;
   position: relative;
   z-index: 10;
   
-  background: radial-gradient(
-    circle at 20% 20%, 
-    rgba(100, 149, 237, 0.8) 25%, 
-    rgba(70, 130, 180, 0.6)
-  ),
-  linear-gradient(
-    120deg,
-    rgba(70, 130, 180, 0.6), 
-    rgba(100, 149, 237, 0.4)
-  );
+  /* Enhanced 3D Neomorphic Background */
+  background: 
+    radial-gradient(
+      circle at 20% 20%, 
+      rgba(255, 255, 255, 0.87) 25%, 
+      rgba(133, 143, 167, 0.1)
+    ),
+    linear-gradient(
+      120deg,
+      rgba(133, 143, 167, 0.1), 
+      rgba(133, 143, 167, 0.27)
+    );
   
+  /* Original Neomorphic Shadow System */
   box-shadow: 
-    inset 15px 20px 50px -10px rgba(255, 255, 255, 0.9),
-    inset -25px -35px 15px -32px rgba(70, 130, 180, 0.3),
-    inset -25px -35px 50px -20px rgba(100, 149, 237, 0.2),
-    -15px -20px 30px -2px rgba(255, 255, 255, 0.8),
-    15px 25px 15px -18px rgba(70, 130, 180, 0.3),
-    15px 30px 40px -12px rgba(100, 149, 237, 0.2),
-    0 0 80px rgba(100, 149, 237, 0.4),
-    0 0 120px rgba(70, 130, 180, 0.3);
+    inset 10px 15px 40px -10px rgba(255, 255, 255, 1),
+    inset -20px -30px 12px -32px rgba(133, 143, 167, 0.4),
+    inset -20px -30px 40px -20px rgba(133, 143, 167, 0.27),
+    -10px -15px 17px -2px rgba(255, 255, 255, 1),
+    12px 18px 12px -18px rgba(133, 143, 167, 0.4),
+    12px 20px 20px -12px rgba(133, 143, 167, 0.27);
   
-  animation: CenterPulse 4s ease-in-out infinite;
+  animation: center-pulse 4s ease-in-out infinite;
+}
+
+/* Light Blue Aura Enhancement */
+.neo-center-glow {
+  position: absolute;
+  top: -30px;
+  left: -30px;
+  right: -30px;
+  bottom: -30px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    var(--blue-light) 0%,
+    var(--blue-mid) 30%,
+    rgba(135, 206, 250, 0.1) 60%,
+    transparent 100%
+  );
+  filter: blur(20px);
+  animation: aura-pulse 3s ease-in-out infinite alternate;
+  z-index: -1;
 }
 
 .neo-center:before {
@@ -71,79 +104,139 @@
   pointer-events: none;
   z-index: 1;
   
-  left: 5%;
-  top: 5%;
-  right: 5%;
-  bottom: 5%;
+  left: 10%;
+  top: 10%;
+  right: 10%;
+  bottom: 10%;
   
   border-radius: 50%;
-  filter: blur(20px);
+  filter: blur(12px);
   
   background: radial-gradient(
     circle at 75% 75%, 
-    rgba(135, 206, 250, 0.9) 25%, 
-    rgba(100, 149, 237, 0.6)
+    rgba(255, 255, 255, 0.87) 25%, 
+    rgba(133, 143, 167, 0.27)
   );
   
   opacity: 0;
-  
-  animation: NeoInnerShadowAnimation 2s ease infinite;
+  animation: neo-inner-shadow 1.5s ease infinite;
 }
 
-.neo-triangle {
-  position: relative;
-  z-index: 3;
-  color: rgba(255, 255, 255, 0.9);
+.neo-center-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px);
+  position: relative;
+  z-index: 3;
 }
 
+.neo-logo {
+  position: relative;
+  z-index: 4;
+  color: rgba(133, 143, 167, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Simplified Neomorphic Wave System - Fewer, Slower Waves */
 .neo-waves {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 200px;
-  height: 200px;
-  transform: translate(-50%, -50%) scale(0.5);
+  width: 220px;
+  height: 220px;
+  transform: translate(-50%, -50%) scale(0.8);
   border-radius: 50%;
-  
   opacity: 0;
-  
-  animation: WaveMainAnimation 24s linear infinite;
+  animation: wave-main 12s linear infinite;
 }
 
-.neo-waves-2 {
-  animation-delay: 1.5s;
-}
-
-.neo-waves-3 {
-  animation-delay: 3s;
-}
-
-.neo-waves-4 {
-  animation-delay: 4.5s;
-}
-
-.neo-waves-5 {
-  animation-delay: 6s;
-}
-
-.neo-waves-6 {
-  animation-delay: 7.5s;
+/* Background Waves - Starting Further Out */
+.neo-wave-background {
+  position: absolute;
+  top: 50%;
+  left: 50%;
   width: 400px;
   height: 400px;
   transform: translate(-50%, -50%) scale(1);
+  border-radius: 50%;
+  opacity: 0;
+  animation: wave-main-background 15s linear infinite;
+  z-index: -1;
 }
 
-.neo-waves-7 {
+.neo-wave-background:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%) scale(1);
+  border-radius: 50%;
+  
+  /* Softer shadows for background waves */
+  box-shadow:
+    inset -10px -15px 15px -8px rgba(255, 255, 255, 0.8),
+    inset 10px 15px 15px -8px rgba(133, 143, 167, 0.3),
+    inset 8px 12px 15px -8px rgba(255, 255, 255, 0.8),
+    inset -15px -20px 10px -25px rgba(133, 143, 167, 0.3),
+    inset -15px -20px 30px -15px rgba(133, 143, 167, 0.2),
+    -8px -12px 15px -2px rgba(255, 255, 255, 0.8),
+    10px 15px 10px -15px rgba(133, 143, 167, 0.3),
+    10px 15px 18px -10px rgba(133, 143, 167, 0.15);
+  
+  animation: wave-before-background 8s 0.2s linear infinite;
+}
+
+.neo-wave-background:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%) scale(1);
+  border-radius: 50%;
+  
+  /* Matching softer shadows */
+  box-shadow:
+    inset -10px -15px 15px -8px rgba(255, 255, 255, 0.8),
+    inset 10px 15px 15px -8px rgba(133, 143, 167, 0.3),
+    inset 8px 12px 15px -8px rgba(255, 255, 255, 0.8),
+    inset -15px -20px 10px -25px rgba(133, 143, 167, 0.3),
+    inset -15px -20px 30px -15px rgba(133, 143, 167, 0.2),
+    -8px -12px 15px -2px rgba(255, 255, 255, 0.8),
+    10px 15px 10px -15px rgba(133, 143, 167, 0.3),
+    10px 15px 18px -10px rgba(133, 143, 167, 0.15);
+  
+  animation: wave-before-background -7.5s 4s linear infinite;
+}
+
+/* Primary Wave Variations with Slower, Longer Timing */
+.neo-wave-primary-1 {
+  animation-delay: 0s;
+}
+
+.neo-wave-primary-2 {
+  animation-delay: 3s;
+}
+
+.neo-wave-primary-3 {
+  animation-delay: 6s;
+}
+
+.neo-wave-primary-4 {
   animation-delay: 9s;
-  width: 600px;
-  height: 600px;
-  transform: translate(-50%, -50%) scale(1.5);
 }
 
+/* Original Neomorphic Wave Shadows */
 .neo-waves:before {
   content: '';
   position: absolute;
@@ -151,20 +244,21 @@
   left: 50%;
   width: 100%;
   height: 100%;
-  transform: translate(-50%, -50%) scale(0.5);
+  transform: translate(-50%, -50%) scale(1);
   border-radius: 50%;
   
+  /* Original Shadow System for 3D Effect */
   box-shadow:
     inset -14px -20px 20px -10px rgba(255, 255, 255, 1),
-    inset 14px 20px 20px -10px rgba(133, 143, 167, 0.15),
+    inset 14px 20px 20px -10px rgba(133, 143, 167, 0.4),
     inset 10px 15px 20px -10px rgba(255, 255, 255, 1),
-    inset -20px -30px 12px -32px rgba(133, 143, 167, 0.15),
-    inset -20px -30px 40px -20px rgba(133, 143, 167, 0.08),
+    inset -20px -30px 12px -32px rgba(133, 143, 167, 0.4),
+    inset -20px -30px 40px -20px rgba(133, 143, 167, 0.27),
     -10px -15px 17px -2px rgba(255, 255, 255, 1),
-    12px 18px 12px -18px rgba(133, 143, 167, 0.15),
-    12px 20px 20px -12px rgba(133, 143, 167, 0.05);
+    12px 18px 12px -18px rgba(133, 143, 167, 0.4),
+    12px 20px 20px -12px rgba(133, 143, 167, 0.17);
   
-  animation: WaveBeforeAnimation 12s 0.2s linear infinite;
+  animation: wave-before 6s 0.2s linear infinite;
 }
 
 .neo-waves:after {
@@ -174,94 +268,236 @@
   left: 50%;
   width: 100%;
   height: 100%;
-  transform: translate(-50%, -50%) scale(0.5);
+  transform: translate(-50%, -50%) scale(1);
   border-radius: 50%;
   
+  /* Matching Shadow System */
   box-shadow:
     inset -14px -20px 20px -10px rgba(255, 255, 255, 1),
-    inset 14px 20px 20px -10px rgba(133, 143, 167, 0.15),
+    inset 14px 20px 20px -10px rgba(133, 143, 167, 0.4),
     inset 10px 15px 20px -10px rgba(255, 255, 255, 1),
-    inset -20px -30px 12px -32px rgba(133, 143, 167, 0.15),
-    inset -20px -30px 40px -20px rgba(133, 143, 167, 0.08),
+    inset -20px -30px 12px -32px rgba(133, 143, 167, 0.4),
+    inset -20px -30px 40px -20px rgba(133, 143, 167, 0.27),
     -10px -15px 17px -2px rgba(255, 255, 255, 1),
-    12px 18px 12px -18px rgba(133, 143, 167, 0.15),
-    12px 20px 20px -12px rgba(133, 143, 167, 0.05);
+    12px 18px 12px -18px rgba(133, 143, 167, 0.4),
+    12px 20px 20px -12px rgba(133, 143, 167, 0.17);
   
-  animation: WaveBeforeAnimation -10s 6s linear infinite;
+  animation: wave-before -5.5s 3s linear infinite;
 }
 
-@keyframes CenterPulse {
+/* Enhanced Audio Visualization Layers */
+.audio-vis-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    var(--blue-light) 0%,
+    var(--blue-mid) 40%,
+    transparent 70%
+  );
+  backdrop-filter: blur(8px);
+}
+
+.audio-vis-1 {
+  width: 200px;
+  height: 200px;
+  margin: -100px 0 0 -100px;
+  animation: audio-pulse 2s ease-in-out infinite;
+}
+
+.audio-vis-2 {
+  width: 320px;
+  height: 320px;
+  margin: -160px 0 0 -160px;
+  animation: audio-pulse 2s 0.5s ease-in-out infinite;
+}
+
+.audio-vis-3 {
+  width: 440px;
+  height: 440px;
+  margin: -220px 0 0 -220px;
+  animation: audio-pulse 2s 1s ease-in-out infinite;
+}
+
+.audio-vis-4 {
+  width: 560px;
+  height: 560px;
+  margin: -280px 0 0 -280px;
+  animation: audio-pulse 2s 1.5s ease-in-out infinite;
+}
+
+/* Gradient Glow Enhancements */
+.gradient-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  filter: blur(25px);
+  pointer-events: none;
+}
+
+.glow-layer-1 {
+  width: 300px;
+  height: 300px;
+  margin: -150px 0 0 -150px;
+  background: radial-gradient(
+    circle,
+    var(--blue-light) 0%,
+    var(--blue-mid) 30%,
+    transparent 60%
+  );
+  animation: glow-sync 4s ease-in-out infinite;
+}
+
+.glow-layer-2 {
+  width: 500px;
+  height: 500px;
+  margin: -250px 0 0 -250px;
+  background: radial-gradient(
+    circle,
+    rgba(135, 206, 250, 0.4) 0%,
+    rgba(173, 216, 230, 0.2) 25%,
+    transparent 50%
+  );
+  animation: glow-sync 4s 1.3s ease-in-out infinite;
+}
+
+.glow-layer-3 {
+  width: 700px;
+  height: 700px;
+  margin: -350px 0 0 -350px;
+  background: radial-gradient(
+    circle,
+    rgba(135, 206, 250, 0.3) 0%,
+    rgba(173, 216, 230, 0.1) 20%,
+    transparent 40%
+  );
+  animation: glow-sync 4s 2.6s ease-in-out infinite;
+}
+
+/* Animation Keyframes */
+@keyframes center-pulse {
   0%, 100% { 
     transform: scale(1);
-    filter: brightness(1) saturate(1);
-    box-shadow: 
-      inset 15px 20px 50px -10px rgba(255, 255, 255, 0.9),
-      inset -25px -35px 15px -32px rgba(70, 130, 180, 0.3),
-      inset -25px -35px 50px -20px rgba(100, 149, 237, 0.2),
-      -15px -20px 30px -2px rgba(255, 255, 255, 0.8),
-      15px 25px 15px -18px rgba(70, 130, 180, 0.3),
-      15px 30px 40px -12px rgba(100, 149, 237, 0.2),
-      0 0 80px rgba(100, 149, 237, 0.4),
-      0 0 120px rgba(70, 130, 180, 0.3);
+    filter: brightness(1);
   }
   50% { 
     transform: scale(1.05);
-    filter: brightness(1.3) saturate(1.2);
-    box-shadow: 
-      inset 15px 20px 50px -10px rgba(255, 255, 255, 1),
-      inset -25px -35px 15px -32px rgba(70, 130, 180, 0.4),
-      inset -25px -35px 50px -20px rgba(100, 149, 237, 0.3),
-      -15px -20px 30px -2px rgba(255, 255, 255, 1),
-      15px 25px 15px -18px rgba(70, 130, 180, 0.4),
-      15px 30px 40px -12px rgba(100, 149, 237, 0.3),
-      0 0 120px rgba(100, 149, 237, 0.6),
-      0 0 160px rgba(70, 130, 180, 0.5);
+    filter: brightness(1.1);
   }
 }
 
-@keyframes NeoInnerShadowAnimation {
+@keyframes aura-pulse {
+  0% { 
+    opacity: 0.4;
+    transform: scale(0.9);
+  }
+  100% { 
+    opacity: 0.8;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes neo-inner-shadow {
   0% { opacity: 0; }
-  50% { opacity: 0.8; }
+  50% { opacity: 1; }
   100% { opacity: 0; }
 }
 
-@keyframes WaveMainAnimation {
-  15% { opacity: 0.7; }
-  30% { opacity: 0.5; }
-  45% { opacity: 0.4; }
-  60% { opacity: 0.3; }
-  75% { opacity: 0.2; }
-  90% { opacity: 0.1; }
+@keyframes wave-main {
+  30% { opacity: 1; }
 }
 
-@keyframes WaveBeforeAnimation {
+@keyframes wave-before {
   0% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.5);
+    transform: translate(-50%, -50%) scale(0.8);
   }
   10% { 
-    opacity: 0.8; 
-  }
-  20% {
-    opacity: 0.6;
-  }
-  35% {
-    opacity: 0.5;
-  }
-  50% {
-    opacity: 0.4;
-  }
-  65% {
-    opacity: 0.3;
-  }
-  80% {
-    opacity: 0.2;
+    opacity: 0.7; 
   }
   90% {
-    opacity: 0.1;
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(4.5);
   }
   100% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(12);
+    transform: translate(-50%, -50%) scale(5);
   }
+}
+
+@keyframes wave-main-background {
+  25% { opacity: 0.6; }
+}
+
+@keyframes wave-before-background {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  15% { 
+    opacity: 0.4; 
+  }
+  95% {
+    opacity: 0.15;
+    transform: translate(-50%, -50%) scale(5.5);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(6);
+  }
+}
+
+@keyframes audio-pulse {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes glow-sync {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.2);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  :root {
+    --size: 140px;
+  }
+  
+  .neo-logo svg {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .audio-vis-1 { width: 180px; height: 180px; margin: -90px 0 0 -90px; }
+  .audio-vis-2 { width: 280px; height: 280px; margin: -140px 0 0 -140px; }
+  .audio-vis-3 { width: 380px; height: 380px; margin: -190px 0 0 -190px; }
+  .audio-vis-4 { width: 480px; height: 480px; margin: -240px 0 0 -240px; }
+}
+
+/* Performance Optimizations */
+.neo-waves,
+.audio-vis-circle,
+.gradient-glow {
+  will-change: transform, opacity;
+  transform-origin: center;
+}
+
+.neo-center {
+  will-change: transform;
+  transform-origin: center;
 }
