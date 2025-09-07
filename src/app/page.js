@@ -1,11 +1,15 @@
 'use client'
 
 import { useState } from 'react'
+import dynamic from 'next/dynamic'
 import AudioUpload from '../components/AudioUpload'
 import AnalysisDisplay from '../components/AnalysisDisplay'
 import CoverGrid from '../components/CoverGrid'
 import Modal from '../components/Modal'
-import Threads from '../components/Threads'
+
+const Threads = dynamic(() => import('../components/Threads'), {
+  ssr: false,
+})
 
 export default function Home() {
   const [audioFile, setAudioFile] = useState(null)
@@ -41,7 +45,7 @@ export default function Home() {
     <div className="min-h-screen relative overflow-hidden flex items-center justify-center p-4">
       {/* Prismatic Burst Background */}
       <div className="absolute inset-0 z-0">
-        <Threads />
+        <Threads color={[0.678, 0.847, 0.902]} />
       </div>
       
       <div className="w-full max-w-4xl relative z-10">
@@ -49,7 +53,7 @@ export default function Home() {
           {/* Header */}
           <div className="text-center mb-12">
             <h1 className="text-5xl md:text-7xl font-extrabold text-black mb-4 tracking-tighter">
-              AI Album Cover Generator
+              Album Cover Generator
             </h1>
             <p className="text-gray-700 text-xl max-w-3xl mx-auto leading-relaxed">
               Transform your music into stunning visual art. Upload any audio file and watch AI create beautiful album covers tailored to your sound.

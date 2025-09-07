@@ -1,7 +1,7 @@
 import './globals.css'
 
 export const metadata = {
-  title: 'AI Album Cover Generator',
+  title: 'Album Cover Generator',
   description: 'Generate stunning AI-powered album covers from your music files',
 }
 
