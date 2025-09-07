@@ -5,6 +5,7 @@ import AudioUpload from '../components/AudioUpload'
 import AnalysisDisplay from '../components/AnalysisDisplay'
 import CoverGrid from '../components/CoverGrid'
 import Modal from '../components/Modal'
+import Threads from '../components/Threads'
 
 export default function Home() {
   const [audioFile, setAudioFile] = useState(null)
@@ -37,8 +38,13 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center p-4">
-      <div className="w-full max-w-4xl">
+    <div className="min-h-screen relative overflow-hidden flex items-center justify-center p-4">
+      {/* Prismatic Burst Background */}
+      <div className="absolute inset-0 z-0">
+        <Threads />
+      </div>
+      
+      <div className="w-full max-w-4xl relative z-10">
         <div className="glass-card rounded-3xl p-8 md:p-12">
           {/* Header */}
           <div className="text-center mb-12">
