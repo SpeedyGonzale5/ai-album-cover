@@ -4,6 +4,7 @@ import { useState } from 'react'
 import AudioUpload from '../components/AudioUpload'
 import AnalysisDisplay from '../components/AnalysisDisplay'
 import CoverGrid from '../components/CoverGrid'
+import Modal from '../components/Modal'
 
 export default function Home() {
   const [audioFile, setAudioFile] = useState(null)
@@ -11,6 +12,7 @@ export default function Home() {
   const [covers, setCovers] = useState([])
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [isGenerating, setIsGenerating] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const handleFileUpload = (file) => {
     setAudioFile(file)
@@ -24,6 +26,14 @@ export default function Home() {
 
   const handleCoversGenerated = (generatedCovers) => {
     setCovers(generatedCovers)
+    setIsModalOpen(true)
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+    setAudioFile(null)
+    setAnalysis(null)
+    setCovers([])
   }
 
   return (
@@ -53,20 +63,6 @@ export default function Home() {
             />
           </div>
 
-          {/* Analysis Display */}
-          {analysis && (
-            <div className="mb-12 animate-fade-in">
-              <AnalysisDisplay analysis={analysis} />
-            </div>
-          )}
-
-          {/* Cover Grid */}
-          {covers.length > 0 && (
-            <div className="animate-slide-up">
-              <CoverGrid covers={covers} audioFile={audioFile} analysis={analysis} />
-            </div>
-          )}
-
           {/* Loading States */}
           {isAnalyzing && (
             <div className="text-center py-12">
@@ -85,6 +81,18 @@ export default function Home() {
           )}
         </div>
       </div>
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        {analysis && (
+          <div className="mb-12">
+            <AnalysisDisplay analysis={analysis} />
+          </div>
+        )}
+        {covers.length > 0 && (
+          <div>
+            <CoverGrid covers={covers} audioFile={audioFile} analysis={analysis} />
+          </div>
+        )}
+      </Modal>
     </div>
   )
 }

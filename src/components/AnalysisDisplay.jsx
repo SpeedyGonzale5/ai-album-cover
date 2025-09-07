@@ -42,24 +42,24 @@ export default function AnalysisDisplay({ analysis }) {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">Music Analysis</h2>
+    <div className="space-y-10">
+      <div className="text-center">
+        <h2 className="text-3xl font-bold text-black tracking-tighter mb-2">Music Analysis</h2>
         <p className="text-gray-600">AI-powered insights into your track</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Genre Tags */}
-        <div className="glass-card-inner rounded-xl p-6">
-          <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
-            <span className="mr-2">🎯</span>
+        <div className="bg-gray-50 rounded-2xl p-6">
+          <h3 className="font-semibold text-gray-800 mb-4 flex items-center text-sm">
+            <span className="mr-2 text-lg">🎯</span>
             Detected Genres
           </h3>
           <div className="flex flex-wrap gap-2">
             {analysis.genre.map((genre, index) => (
               <span
                 key={index}
-                className={`genre-tag bg-gradient-to-r ${getGenreColor(genre)} text-white`}
+                className={`text-sm font-medium bg-gradient-to-r ${getGenreColor(genre)} text-white px-3 py-1 rounded-full`}
               >
                 {genre}
               </span>
@@ -68,12 +68,12 @@ export default function AnalysisDisplay({ analysis }) {
         </div>
 
         {/* Mood & Vibe */}
-        <div className="glass-card-inner rounded-xl p-6">
-          <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
-            <span className="mr-2">🎭</span>
+        <div className="bg-gray-50 rounded-2xl p-6">
+          <h3 className="font-semibold text-gray-800 mb-4 flex items-center text-sm">
+            <span className="mr-2 text-lg">🎭</span>
             Mood & Vibe
           </h3>
-          <div className="space-y-3">
+          <div className="space-y-3 text-sm">
             <div className="flex items-center justify-between">
               <span className="text-gray-600">Mood:</span>
               <span className="font-medium flex items-center">
@@ -95,42 +95,40 @@ export default function AnalysisDisplay({ analysis }) {
         </div>
 
         {/* Tempo */}
-        <div className="glass-card-inner rounded-xl p-6">
-          <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
-            <span className="mr-2">⏱️</span>
+        <div className="bg-gray-50 rounded-2xl p-6 text-center">
+          <h3 className="font-semibold text-gray-800 mb-3 flex items-center justify-center text-sm">
+            <span className="mr-2 text-lg">⏱️</span>
             Tempo Analysis
           </h3>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-blue-600 mb-2">
-              {analysis.tempo}
-            </div>
-            <div className="text-sm text-gray-600">BPM</div>
-            <div className="mt-3 text-sm text-gray-500">
-              {analysis.tempo < 70 ? 'Very Slow' :
-               analysis.tempo < 100 ? 'Slow' :
-               analysis.tempo < 120 ? 'Moderate' :
-               analysis.tempo < 140 ? 'Fast' : 'Very Fast'}
-            </div>
+          <div>
+            <span className="text-5xl font-bold text-black tracking-tighter">{analysis.tempo}</span>
+            <span className="text-gray-500 ml-1">BPM</span>
+          </div>
+          <div className="mt-1 text-sm text-gray-500">
+            {analysis.tempo < 70 ? 'Very Slow' :
+             analysis.tempo < 100 ? 'Slow' :
+             analysis.tempo < 120 ? 'Moderate' :
+             analysis.tempo < 140 ? 'Fast' : 'Very Fast'}
           </div>
         </div>
 
         {/* Energy Level */}
-        <div className="glass-card-inner rounded-xl p-6">
-          <h3 className="font-semibold text-gray-800 mb-4 flex items-center">
-            <span className="mr-2">⚡</span>
+        <div className="bg-gray-50 rounded-2xl p-6">
+          <h3 className="font-semibold text-gray-800 mb-4 flex items-center text-sm">
+            <span className="mr-2 text-lg">⚡</span>
             Energy Level
           </h3>
-          <div className="space-y-3">
-            <div className="progress-track h-3">
+          <div className="space-y-2">
+            <div className="w-full bg-gray-200 rounded-full h-2.5">
               <div 
-                className={`progress-fill bg-gradient-to-r ${getEnergyColor(analysis.energy)}`}
+                className={`bg-blue-600 h-2.5 rounded-full`}
                 style={{ width: `${analysis.energy * 100}%` }}
               ></div>
             </div>
-            <div className="flex justify-between text-sm text-gray-600">
+            <div className="flex justify-between text-xs text-gray-600">
               <span>Low</span>
               <span className="font-medium">
-                {Math.round(analysis.energy * 100)}% Energy
+                {Math.round(analysis.energy * 100)}%
               </span>
               <span>High</span>
             </div>
