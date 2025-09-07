@@ -19,9 +19,21 @@ export default function Home() {
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [isGenerating, setIsGenerating] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isCardVisible, setIsCardVisible] = useState(true)
 
   const handleFileUpload = (file) => {
     setAudioFile(file)
+    setAnalysis(null)
+    setCovers([])
+  }
+
+  const handleRetry = () => {
+    setIsCardVisible(false)
+  }
+
+  const handleGenerate = () => {
+    setIsCardVisible(true)
+    setAudioFile(null)
     setAnalysis(null)
     setCovers([])
   }
@@ -43,7 +55,10 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen relative overflow-hidden flex items-center justify-center p-4">
+    <div 
+      className="min-h-screen relative overflow-hidden flex items-center justify-center p-4"
+      onClick={() => !isCardVisible && handleGenerate()}
+    >
       {/* Neomorphic Aura Background */}
       <div className="absolute inset-0 z-0">
         <NeomorphicAura />
@@ -54,7 +69,11 @@ export default function Home() {
         <Threads color={[0.678, 0.847, 0.902]} />
       </div> */}
       
-      <div className="w-full max-w-4xl relative z-10">
+      <div 
+        className={`w-full max-w-4xl relative z-10 transition-all duration-700 ease-in-out ${
+          isCardVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
+        }`}
+      >
         <div className="glass-card rounded-3xl p-8 md:p-12">
           {/* Header */}
           <div className="text-center mb-12">
@@ -95,8 +114,28 @@ export default function Home() {
               <p className="text-gray-500 text-sm mt-2">Generating 6 unique designs</p>
             </div>
           )}
+
+          <div className="text-center mt-8">
+            <button
+              onClick={handleRetry}
+              className="bg-gray-200/70 hover:bg-gray-300/70 text-gray-700 font-semibold py-2 px-6 rounded-full transition-all duration-300 backdrop-blur-sm border border-white/30 shadow-md"
+            >
+              Retry
+            </button>
+          </div>
         </div>
       </div>
+
+      <div 
+        className={`absolute z-20 text-center transition-all duration-700 ease-in-out ${
+          !isCardVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-105 pointer-events-none'
+        }`}
+      >
+        <h2 className="text-3xl font-bold text-gray-800/80 drop-shadow-lg cursor-pointer">
+          Press to Generate
+        </h2>
+      </div>
+
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         {analysis && (
           <div className="mb-12">
