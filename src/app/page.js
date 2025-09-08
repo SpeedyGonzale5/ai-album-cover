@@ -213,7 +213,7 @@ export default function Home() {
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         {covers && covers.length > 0 && (
           <div className="bookshelf-showcase mb-16">
-            <h2 className="text-2xl font-bold text-center mb-6">Your Album Collection</h2>
+            <h2 className="text-2xl font-bold text-center mb-6">Your Album Cover</h2>
             <CDBookshelf 
               covers={covers} 
               onCDClick={handleCDClick}

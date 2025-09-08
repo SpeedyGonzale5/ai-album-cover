@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { editAlbumCover } from '../lib/geminiImageGenerator'
 import Modal from './Modal'
 import { imageUrlToBase64 } from '../lib/utils'
+import { Button } from './ui/button'
 
 export default function CoverEditor({ cover, analysis, onComplete, onCancel }) {
   const [editInstruction, setEditInstruction] = useState('')
@@ -126,20 +127,22 @@ export default function CoverEditor({ cover, analysis, onComplete, onCancel }) {
             {/* History Controls */}
             <div className="flex items-center justify-between">
               <div className="flex space-x-2">
-                <button
+                <Button
                   onClick={handleUndo}
                   disabled={currentHistoryIndex === 0}
-                  className="px-3 py-1 text-sm bg-gray-200 hover:bg-gray-300 disabled:bg-gray-100 disabled:text-gray-400 rounded-lg transition-colors"
+                  variant="outline"
+                  size="sm"
                 >
                   ↶ Undo
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={handleRedo}
                   disabled={currentHistoryIndex === editHistory.length - 1}
-                  className="px-3 py-1 text-sm bg-gray-200 hover:bg-gray-300 disabled:bg-gray-100 disabled:text-gray-400 rounded-lg transition-colors"
+                  variant="outline"
+                  size="sm"
                 >
                   ↷ Redo
-                </button>
+                </Button>
               </div>
               <span className="text-sm text-gray-500">
                 Version {currentHistoryIndex + 1} of {editHistory.length}
@@ -180,57 +183,54 @@ export default function CoverEditor({ cover, analysis, onComplete, onCancel }) {
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {suggestedEdits.map((suggestion, index) => (
-                  <button
+                  <Button
                     key={index}
                     onClick={() => setEditInstruction(suggestion)}
                     disabled={isEditing}
-                    className="p-2 text-sm text-left bg-gray-50 hover:bg-gray-100 disabled:bg-gray-25 rounded-lg transition-colors text-gray-700 hover:text-gray-900"
+                    variant="ghost"
+                    className="justify-start text-left h-auto p-3 text-sm bg-gray-50 hover:bg-gray-100 text-gray-700 hover:text-gray-900 whitespace-normal leading-relaxed"
                   >
                     {suggestion}
-                  </button>
+                  </Button>
                 ))}
               </div>
             </div>
 
             {/* Action Buttons */}
             <div className="space-y-3">
-              <button
+              <Button
                 onClick={handleEdit}
                 disabled={!editInstruction.trim() || isEditing}
-                className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white font-semibold py-3 px-6 rounded-xl transition-colors"
+                className="w-full"
+                size="lg"
               >
                 {isEditing ? 'Editing...' : 'Apply Edit'}
-              </button>
+              </Button>
               
               <div className="flex space-x-3">
-                <button
+                <Button
                   onClick={handleComplete}
                   disabled={isEditing}
-                  className="flex-1 bg-green-600 hover:bg-green-700 disabled:bg-green-300 text-white font-semibold py-3 px-6 rounded-xl transition-colors"
+                  variant="default"
+                  className="flex-1 bg-green-600 hover:bg-green-700"
+                  size="lg"
                 >
                   Save Changes
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={onCancel}
                   disabled={isEditing}
-                  className="flex-1 bg-gray-500 hover:bg-gray-600 disabled:bg-gray-300 text-white font-semibold py-3 px-6 rounded-xl transition-colors"
+                  variant="outline"
+                  className="flex-1"
+                  size="lg"
                 >
                   Cancel
-                </button>
+                </Button>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Music Context Info */}
-        <div className="mt-8 p-4 bg-blue-50 rounded-xl">
-          <h4 className="font-medium text-blue-900 mb-2">Music Context</h4>
-          <div className="text-sm text-blue-800 space-y-1">
-            <p><strong>Genre:</strong> {analysis.genre?.join(', ') || 'Unknown'}</p>
-            <p><strong>Mood:</strong> {analysis.mood || 'Unknown'}</p>
-            <p><strong>Vibe:</strong> {analysis.vibe || 'Unknown'}</p>
-          </div>
-        </div>
       </div>
     </Modal>
   )
