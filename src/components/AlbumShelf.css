@@ -1,0 +1,27 @@
+/* Album Shelf Container */
+.album-shelf-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Vinyl Collection Positioning */
+.vinyl-collection {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  margin-top: -40px; /* Position below the shelf */
+}
+
+.vinyl-collection .vinyl-container {
+  position: absolute;
+}
+
+/* Responsive positioning */
+@media (max-width: 768px) {
+  .vinyl-collection .vinyl-container {
+    left: calc(90px + (var(--index) * 140px)) !important;
+  }
+}

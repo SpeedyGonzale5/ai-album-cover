@@ -6,6 +6,8 @@ import AudioUpload from '../components/AudioUpload'
 import AnalysisDisplay from '../components/AnalysisDisplay'
 import CoverGrid from '../components/CoverGrid'
 import CDBookshelf from '../components/CDBookshelf'
+import WoodenShelf from '../components/WoodenShelf'
+import AlbumShelf from '../components/AlbumShelf'
 import CDOptionsModal from '../components/CDOptionsModal'
 import PhoneVisualizer from '../components/PhoneVisualizer'
 import CoverEditor from '../components/CoverEditor'
@@ -213,8 +215,8 @@ export default function Home() {
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         {covers && covers.length > 0 && (
           <div className="bookshelf-showcase mb-16">
-            <h2 className="text-2xl font-bold text-center mb-6">Your Album Cover</h2>
-            <CDBookshelf 
+            <h2 className="text-2xl font-bold text-center mb-6">Your Album Collection</h2>
+            <AlbumShelf 
               covers={covers} 
               onCDClick={handleCDClick}
             />

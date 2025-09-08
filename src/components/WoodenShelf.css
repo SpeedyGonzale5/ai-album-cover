@@ -1,0 +1,282 @@
+/* Black Shelf Styling */
+.wooden-shelf-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 100px 0 40px;
+  background: transparent;
+}
+
+.shelf-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* 3D Comic Book Shelf - Based on provided example */
+.shelf {
+  position: relative;
+  width: 721px;
+  border-bottom: 13px solid #24252a;
+  text-align: center;
+  padding: 0 27px;
+  margin: 20px auto;
+  background: transparent;
+}
+
+.shelf:after {
+  position: absolute;
+  bottom: -13px;
+  left: 34px;
+  height: 10px;
+  background: transparent;
+  content: "";
+  -webkit-transform: perspective(150px) rotateX(-25deg);
+  -moz-transform: perspective(150px) rotateX(-25deg);
+  -ms-transform: perspective(150px) rotateX(-25deg);
+  transform: perspective(150px) rotateX(-25deg);
+  right: 34px;
+  box-shadow: 0 0 17px 5px rgba(0, 0, 0, 0.7);
+  z-index: -1;
+}
+
+.shelf > div {
+  border-bottom: 23px solid #303138;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: 40px;
+  justify-content: center;
+  padding: 18px 0;
+}
+
+.shelf > div:before {
+  content: '';
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 0 0 23px 27px;
+  border-color: transparent transparent #303138 transparent;
+  position: absolute;
+  bottom: -23px;
+  left: -27px;
+  z-index: 2;
+  -webkit-transform: rotate(360deg);
+  -moz-transform: rotate(360deg);
+  transform: rotate(360deg);
+}
+
+.shelf > div:after {
+  content: '';
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 23px 0 0 27px;
+  border-color: transparent transparent transparent #303138;
+  position: absolute;
+  bottom: -23px;
+  right: -27px;
+  z-index: 2;
+}
+
+/* CD Case - Album Cover Style with floating animation */
+.case {
+  display: inline-block;
+  width: 142px;
+  height: 131px;
+  border-radius: 5px;
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  top: -5px;
+  animation: idleFloat 3s ease-in-out infinite;
+}
+
+/* Case Shadow - Adapted from example */
+.case:after {
+  width: 100%;
+  height: 10px;
+  border-radius: 20px;
+  content: "";
+  background: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  bottom: -5px;
+  -webkit-transform: perspective(600px) rotateX(100deg);
+  -moz-transform: perspective(600px) rotateX(100deg);
+  -ms-transform: perspective(600px) rotateX(100deg);
+  -o-transform: perspective(600px) rotateX(100deg);
+  transform: perspective(600px) rotateX(100deg);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  left: 0;
+}
+
+/* Hover Animation */
+.case.hovered {
+  transform: translateY(-8px);
+  z-index: 10;
+}
+
+.case.hovered:after {
+  bottom: -15px;
+  filter: blur(6px);
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* CD Case Interior - Restored with borders */
+.case > div {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 0;
+  padding: 1px 1px 1px 13px;
+  border: 1px solid rgba(0, 0, 0, 0.6);
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+}
+
+.case > div > .img {
+  border-radius: 0;
+  padding: 0;
+  border: 1px solid rgba(0, 0, 0, 0.6);
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.case > div > .img:before {
+  box-shadow: none;
+  width: 12px;
+  background-color: #444;
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, .2) 50%, transparent 50%, transparent);
+  border-radius: 0;
+  background-size: 2px 100%;
+  top: -1px;
+  bottom: -1px;
+  left: -14px;
+  position: absolute;
+  content: "";
+}
+
+
+.case > div > .img > span {
+  background: transparent;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 1px 1px 1px 0;
+  border-radius: 0;
+  display: block;
+  position: relative;
+}
+
+.case > div > .img > span > img {
+  border-radius: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+/* Hover Subtitle */
+.hover-subtitle {
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  font-weight: 500;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  z-index: 12;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 4px 8px;
+  border-radius: 4px;
+  backdrop-filter: blur(10px);
+}
+
+
+/* Animations */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spinFast {
+  from { transform: scale(1.1) rotate(0deg); }
+  to { transform: scale(1.1) rotate(360deg); }
+}
+
+@keyframes idleFloat {
+  0%, 100% { 
+    transform: translateY(0px);
+  }
+  50% { 
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes idleFloatDelay1 {
+  0%, 100% { 
+    transform: translateY(0px);
+  }
+  50% { 
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes idleFloatDelay2 {
+  0%, 100% { 
+    transform: translateY(0px);
+  }
+  50% { 
+    transform: translateY(-10px);
+  }
+}
+
+/* Hover effects */
+.case:hover {
+  animation-play-state: paused;
+  transform: translateY(-15px);
+}
+
+.case.hovered {
+  animation-play-state: paused;
+  transform: translateY(-15px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .shelf {
+    width: 90%;
+    max-width: 600px;
+  }
+  
+  .case {
+    width: 120px;
+    height: 110px;
+    margin: 0 5px;
+  }
+  
+  .spinning-cd {
+    width: 60px;
+    height: 60px;
+    right: -30px;
+    top: 25px;
+  }
+  
+  .cd-hole {
+    width: 15px;
+    height: 15px;
+  }
+}

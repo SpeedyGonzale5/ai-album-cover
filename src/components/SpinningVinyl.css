@@ -1,0 +1,101 @@
+/* Spinning Vinyl Component */
+.vinyl-container {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1; /* Behind CD cases but above shelf */
+}
+
+.vinyl-disc {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, #111 15%, #0d0d0d 16%, #111 17%, #151515 40%, #0f0f0f 70%, #0a0a0a 100%);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.35), inset 0 0 12px rgba(255,255,255,0.05);
+  overflow: hidden;
+  animation: spin 3s linear infinite;
+}
+
+.vinyl-container.hovered .vinyl-disc {
+  animation: spinFast 1s linear infinite;
+  transform: scale(1.05);
+}
+
+.vinyl-grooves {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at center, transparent 18px, rgba(255,255,255,0.06) 19px, transparent 20px),
+    radial-gradient(circle at center, transparent 26px, rgba(255,255,255,0.05) 27px, transparent 28px),
+    radial-gradient(circle at center, transparent 34px, rgba(255,255,255,0.05) 35px, transparent 36px),
+    radial-gradient(circle at center, transparent 42px, rgba(255,255,255,0.05) 43px, transparent 44px),
+    radial-gradient(circle at center, transparent 50px, rgba(255,255,255,0.05) 51px, transparent 52px);
+}
+
+.vinyl-label {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  background: radial-gradient(circle at 30% 30%, #ffd6a5 0%, #ffad60 60%, #e67e22 100%);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.25);
+}
+
+.vinyl-hole {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #000;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: inset 0 0 4px rgba(255,255,255,0.15);
+}
+
+.vinyl-shine {
+  position: absolute;
+  top: -10%;
+  left: 20%;
+  width: 60%;
+  height: 40%;
+  background: linear-gradient(45deg, rgba(255,255,255,0.15), rgba(255,255,255,0));
+  transform: rotate(-25deg);
+  border-radius: 50%;
+}
+
+/* Animations */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spinFast {
+  from { transform: scale(1.05) rotate(0deg); }
+  to { transform: scale(1.05) rotate(360deg); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .vinyl-container {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .vinyl-label {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .vinyl-hole {
+    width: 8px;
+    height: 8px;
+  }
+}
