@@ -187,23 +187,6 @@
   object-fit: cover;
 }
 
-/* Hover Subtitle */
-.hover-subtitle {
-  position: absolute;
-  bottom: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 14px;
-  font-weight: 500;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  pointer-events: none;
-  z-index: 12;
-  background: rgba(0, 0, 0, 0.6);
-  padding: 4px 8px;
-  border-radius: 4px;
-  backdrop-filter: blur(10px);
-}
 
 
 /* Animations */

@@ -22,6 +22,8 @@ export default function AudioUpload({
   const [audioUrl, setAudioUrl] = useState(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [waveform, setWaveform] = useState([])
+  const [volume, setVolume] = useState(0.3)
+  const [showVolumeSlider, setShowVolumeSlider] = useState(false)
   const fileInputRef = useRef(null)
   const audioRef = useRef(null)
 
@@ -39,8 +41,8 @@ export default function AudioUpload({
   }, [audioFile])
 
   const generateMockWaveform = () => {
-    const bars = Array.from({ length: 32 }, () => 
-      Math.floor(Math.random() * 40) + 10
+    const bars = Array.from({ length: 48 }, () => 
+      Math.floor(Math.random() * 60) + 15
     )
     setWaveform(bars)
   }
@@ -132,6 +134,7 @@ export default function AudioUpload({
       if (isPlaying) {
         audioRef.current.pause()
       } else {
+        audioRef.current.volume = volume
         audioRef.current.play()
       }
       setIsPlaying(!isPlaying)
@@ -234,58 +237,87 @@ export default function AudioUpload({
           </div>
         </div>
       ) : (
-        <div className="glass-card-inner rounded-2xl p-6 max-w-md mx-auto">
-          <div className="flex items-center space-x-4">
-            <div className="w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 relative bg-gray-100">
-              <button
-                onClick={togglePlayback}
-                className="absolute inset-0 flex items-center justify-center text-gray-600 text-2xl"
-              >
-                {isPlaying ? '⏸️' : '▶️'}
-              </button>
-            </div>
+        <div className="white-audio-player rounded-3xl p-8 max-w-lg mx-auto bg-white shadow-2xl border border-gray-200">
+          <div className="flex items-center space-x-6">
+            <button
+              onClick={togglePlayback}
+              className="w-20 h-20 flex items-center justify-center flex-shrink-0 text-black text-4xl font-black hover:opacity-70 transition-opacity"
+            >
+              {isPlaying ? '⏸' : '▶'}
+            </button>
             
             <div className="flex-1 min-w-0">
-              <h4 className="font-medium text-gray-800 truncate">
+              <h4 className="font-black text-black text-xl truncate mb-1">
                 {audioFile.name.replace(/\.[^/.]+$/, "")}
               </h4>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-600 font-semibold">
                 {(audioFile.size / 1024 / 1024).toFixed(1)} MB
               </p>
               
               {isAnalyzing && (
-                <div className="mt-3">
-                  <div className="progress-track h-1 rounded-full">
+                <div className="mt-4">
+                  <div className="progress-track h-2 rounded-full bg-gray-200">
                     <div 
-                      className="progress-fill rounded-full transition-all duration-300"
+                      className="progress-fill rounded-full transition-all duration-300 bg-gradient-to-r from-blue-400 to-blue-600"
                       style={{ width: `${progress}%` }}
                     ></div>
                   </div>
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-gray-600 mt-2 font-semibold">
                     Analyzing... {Math.round(progress)}%
                   </p>
                 </div>
               )}
             </div>
+            
+            {/* Volume Control Button */}
+            <button
+              onClick={() => setShowVolumeSlider(!showVolumeSlider)}
+              className="w-12 h-12 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-700 transition-colors"
+              title="Volume Control"
+            >
+              🔊
+            </button>
           </div>
           
-          {/* Waveform Visualization */}
-          <div className="mt-4 flex items-end justify-center space-x-1 h-12">
+          {/* Blue Gradient Waveform Visualization */}
+          <div className="mt-6 flex items-end justify-center space-x-1 h-16 bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl p-4">
             {waveform.map((height, index) => (
               <div
                 key={index}
-                className="waveform-bar w-1"
+                className="waveform-bar-blue w-1 rounded-full"
                 style={{ 
                   height: `${height}%`,
-                  animationDelay: `${index * 50}ms`
+                  animationDelay: `${index * 30}ms`,
+                  background: `linear-gradient(to top, 
+                    hsl(${200 + (index * 1)}, 80%, 40%), 
+                    hsl(${220 + (index * 0.5)}, 90%, 60%))`
                 }}
               ></div>
             ))}
           </div>
           
+          {/* Volume Slider */}
+          {showVolumeSlider && (
+            <div className="mt-4 flex items-center justify-center space-x-3 bg-gray-50 rounded-xl p-3">
+              <span className="text-gray-600 text-sm font-medium">Volume:</span>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                step="1"
+                value={volume * 100}
+                onChange={(e) => setVolume(parseFloat(e.target.value) / 100)}
+                className="volume-slider-white flex-1 max-w-32"
+              />
+              <span className="text-gray-600 text-sm font-medium min-w-8">
+                {Math.round(volume * 100)}%
+              </span>
+            </div>
+          )}
+          
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="mt-4 text-sm text-gray-500 hover:text-gray-700 transition-colors"
+            className="mt-6 text-sm text-gray-600 hover:text-black transition-colors font-semibold"
           >
             Choose different file
           </button>

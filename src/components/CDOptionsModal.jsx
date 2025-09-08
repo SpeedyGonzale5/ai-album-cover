@@ -1,4 +1,4 @@
-export default function CDOptionsModal({ cover, onEdit, onVisualizer, onClose }) {
+export default function CDOptionsModal({ cover, onEdit, onVisualizer, onVideoGenerate, onClose, isGeneratingVideo }) {
   if (!cover) return null;
 
   return (
@@ -15,7 +15,6 @@ export default function CDOptionsModal({ cover, onEdit, onVisualizer, onClose })
               </div>
             )}
           </div>
-          <h3>{cover.style}</h3>
         </div>
         
         <div className="action-buttons">
@@ -27,6 +26,15 @@ export default function CDOptionsModal({ cover, onEdit, onVisualizer, onClose })
           <button className="action-btn visualizer-btn" onClick={() => onVisualizer(cover)}>
             <span>Create Visualizer</span>
             <small>Generate music-reactive experience</small>
+          </button>
+
+          <button 
+            className={`action-btn video-btn ${isGeneratingVideo ? 'opacity-50 cursor-not-allowed' : ''}`}
+            onClick={() => onVideoGenerate(cover)}
+            disabled={isGeneratingVideo}
+          >
+            <span>{isGeneratingVideo ? 'Generating Video...' : 'Generate Video'}</span>
+            <small>{isGeneratingVideo ? 'Please wait, this may take 2-3 minutes' : 'Create AI animated video with VEO 3'}</small>
           </button>
         </div>
         

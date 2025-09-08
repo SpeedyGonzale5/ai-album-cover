@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-export default function PhoneVisualizer({ cover, audioFile, onClose }) {
+export default function PhoneVisualizer({ cover, audioFile, onClose, generatedVideo, isGeneratingVideo }) {
   const canvasRef = useRef(null);
   const audioRef = useRef(null);
   const animationRef = useRef(null);
@@ -13,6 +13,13 @@ export default function PhoneVisualizer({ cover, audioFile, onClose }) {
   const [backgroundVariant, setBackgroundVariant] = useState('particles'); // 'particles' or 'blue-sky'
   const [isRecording, setIsRecording] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  // Video generation state now comes from props
+  const [localGeneratedVideo, setLocalGeneratedVideo] = useState(null);
+  
+  // Use prop video if available, otherwise use local state for direct generation
+  const currentVideo = generatedVideo || localGeneratedVideo;
+  const [volume, setVolume] = useState(0.3);
+  const [showVolumeSlider, setShowVolumeSlider] = useState(false);
 
   useEffect(() => {
     if (audioFile) {
@@ -145,9 +152,17 @@ export default function PhoneVisualizer({ cover, audioFile, onClose }) {
       if (isPlaying) {
         audioRef.current.pause();
       } else {
+        audioRef.current.volume = volume;
         audioRef.current.play();
       }
       setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleVolumeChange = (newVolume) => {
+    setVolume(newVolume);
+    if (audioRef.current) {
+      audioRef.current.volume = newVolume;
     }
   };
 
@@ -243,6 +258,68 @@ export default function PhoneVisualizer({ cover, audioFile, onClose }) {
     await startRecording();
   };
 
+  const [isLocalGenerating, setIsLocalGenerating] = useState(false);
+
+  const handleLocalVideoGenerate = async () => {
+    // Prevent double generation - check both local and parent state
+    if (isGeneratingVideo || isLocalGenerating) {
+      alert('Video generation already in progress. Please wait...');
+      return;
+    }
+    
+    setIsLocalGenerating(true);
+    setLocalGeneratedVideo(null);
+    
+    try {
+      const prompt = `Animate this ${cover.style} album cover with dynamic visual effects optimized for mobile vertical viewing. Create smooth camera movements, rhythmic animations that match the music's energy, and flowing transitions. Add particles, light effects, and gentle morphing of shapes that pulse with the beat. Format for 9:16 vertical aspect ratio.`;
+      
+      const response = await fetch('/api/generate-video', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          imageUrl: cover.previewUrl,
+          prompt: prompt,
+          duration: '8s',
+          generateAudio: false,
+          resolution: '720p' // Will be 9:16 aspect ratio
+        }),
+      });
+
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to generate video');
+      }
+
+      setLocalGeneratedVideo({
+        url: result.videoUrl,
+        cover: cover,
+        prompt: prompt
+      });
+      
+      // Show success notification
+      alert('🎬 Video generated successfully! You can now view it in fullscreen.');
+      
+    } catch (error) {
+      console.error('Video generation failed:', error);
+      
+      let errorMessage = 'Failed to generate video';
+      if (error.message.includes('Exhausted balance')) {
+        errorMessage = '💳 Video generation failed: Account balance exhausted. Please add credits to your fal.ai account.';
+      } else if (error.message.includes('Forbidden')) {
+        errorMessage = '🔒 Video generation failed: Access denied. Please check your API key and account status.';
+      } else {
+        errorMessage = `❌ Video generation failed: ${error.message}`;
+      }
+      
+      alert(errorMessage);
+    } finally {
+      setIsLocalGenerating(false);
+    }
+  };
+
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       {/* Phone Mockup */}
@@ -282,6 +359,90 @@ export default function PhoneVisualizer({ cover, audioFile, onClose }) {
             
             {/* Full-screen Visualizer Canvas */}
             <canvas ref={canvasRef} className="phone-visualizer-canvas"></canvas>
+            
+            {/* Video Generation Loading Overlay */}
+            {(isGeneratingVideo || isLocalGenerating) && (
+              <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-10">
+                <div className="text-center text-white max-w-xs mx-4">
+                  <div className="animate-spin rounded-full h-16 w-16 border-4 border-white/20 border-t-blue-500 mx-auto mb-6"></div>
+                  <p className="text-xl font-bold mb-2">🎬 Generating AI Video</p>
+                  <p className="text-base opacity-90 mb-4">Creating your animated album cover...</p>
+                  <div className="bg-white/10 rounded-lg p-3 backdrop-blur-sm">
+                    <p className="text-sm opacity-75">⏱️ This usually takes 2-3 minutes</p>
+                    <p className="text-xs opacity-60 mt-2">Please don't close this window</p>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            {/* Generated Video Display - Fullscreen */}
+            {currentVideo && (
+              <div className="absolute inset-0 bg-black flex items-center justify-center z-20">
+                <div className="w-full h-full relative">
+                  {/* Video takes full phone screen */}
+                  <video
+                    ref={(el) => {
+                      if (el) {
+                        el.volume = 0.1; // Set volume to 10%
+                      }
+                    }}
+                    controls
+                    autoPlay
+                    loop
+                    className="w-full h-full object-cover"
+                    src={currentVideo.url}
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                  
+                  {/* Overlay controls */}
+                  <div className="absolute top-4 left-4 right-4 flex justify-between items-center z-30">
+                    <div className="bg-black/70 backdrop-blur-sm rounded-lg px-3 py-1">
+                      <span className="text-white text-sm font-medium">🎬 AI Generated</span>
+                    </div>
+                    <button 
+                      onClick={() => {
+                        setLocalGeneratedVideo(null);
+                        // If this was a prop video, we need a way to clear it from parent
+                        if (generatedVideo && onClose) {
+                          // Let parent handle clearing the video
+                        }
+                      }}
+                      className="bg-black/70 backdrop-blur-sm rounded-full p-2 text-white/70 hover:text-white hover:bg-black/80 transition-colors"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                      </svg>
+                    </button>
+                  </div>
+                  
+                  {/* Bottom controls */}
+                  <div className="absolute bottom-4 left-4 right-4 z-30">
+                    <div className="bg-black/70 backdrop-blur-sm rounded-lg p-4">
+                      <h3 className="text-white font-bold text-lg mb-2">{currentVideo.cover.style}</h3>
+                      <div className="flex gap-2">
+                        <a 
+                          href={currentVideo.url} 
+                          download={`${currentVideo.cover.style}-ai-video.mp4`}
+                          className="flex-1 text-center px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-medium transition-colors text-sm"
+                        >
+                          📥 Download
+                        </a>
+                        <button 
+                          onClick={() => {
+                            setLocalGeneratedVideo(null);
+                            // Continue with visualizer
+                          }}
+                          className="px-4 py-2 bg-gray-600 hover:bg-gray-700 rounded-lg text-white font-medium transition-colors text-sm"
+                        >
+                          ✨ Continue
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
             
             {/* Progress Bar */}
             <div className="phone-progress">
@@ -329,13 +490,49 @@ export default function PhoneVisualizer({ cover, audioFile, onClose }) {
                 {backgroundVariant === 'particles' ? '☁️' : '✨'}
               </button>
               <button 
+                className="extra-control-btn volume-btn"
+                onClick={() => setShowVolumeSlider(!showVolumeSlider)}
+                title="Volume Control"
+              >
+                🔊
+              </button>
+              <button 
                 className="extra-control-btn download-btn"
                 onClick={downloadVideo}
                 disabled={isDownloading || isRecording}
               >
                 {isDownloading || isRecording ? '⏳' : '📥'}
               </button>
+              <button 
+                className={`extra-control-btn video-gen-btn ${
+                  (isGeneratingVideo || isLocalGenerating) ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+                onClick={handleLocalVideoGenerate}
+                disabled={isGeneratingVideo || isLocalGenerating}
+                title={isGeneratingVideo || isLocalGenerating ? 'Generating video... Please wait' : 'Generate AI Video'}
+              >
+                {(isGeneratingVideo || isLocalGenerating) ? '⏳' : '🎬'}
+              </button>
             </div>
+            
+            {/* Volume Slider */}
+            {showVolumeSlider && (
+              <div className="phone-volume-slider">
+                <div className="volume-slider-container">
+                  <span className="volume-icon">🔊</span>
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    value={volume}
+                    onChange={(e) => handleVolumeChange(parseFloat(e.target.value))}
+                    className="volume-slider"
+                  />
+                  <span className="volume-value">{Math.round(volume * 100)}%</span>
+                </div>
+              </div>
+            )}
             
             {/* Close Button */}
             <button className="phone-close" onClick={onClose}>

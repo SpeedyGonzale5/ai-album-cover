@@ -44,12 +44,6 @@ export default function WoodenShelf({ covers, onCDClick }) {
                 </div>
               </div>
               
-              {/* Hover Effects */}
-              {hoveredIndex === index && (
-                <div className="hover-subtitle">
-                  Click to Edit
-                </div>
-              )}
             </div>
           ))}
           </div>
