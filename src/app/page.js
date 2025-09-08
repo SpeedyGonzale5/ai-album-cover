@@ -7,7 +7,7 @@ import AnalysisDisplay from '../components/AnalysisDisplay'
 import CoverGrid from '../components/CoverGrid'
 import CDBookshelf from '../components/CDBookshelf'
 import CDOptionsModal from '../components/CDOptionsModal'
-import MusicVisualizer from '../components/MusicVisualizer'
+import PhoneVisualizer from '../components/PhoneVisualizer'
 import CoverEditor from '../components/CoverEditor'
 import MusicGenerator from '../components/MusicGenerator'
 import MusicPlayer from '../components/MusicPlayer'
@@ -211,25 +211,6 @@ export default function Home() {
       </div>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        {analysis && (
-          <div className="compact-analysis mb-8">
-            <div className="analysis-grid">
-              <div>
-                <span className="text-sm font-medium text-gray-600">Genre:</span>
-                <div className="text-lg font-bold">{analysis.genre?.join(', ') || 'Unknown'}</div>
-              </div>
-              <div>
-                <span className="text-sm font-medium text-gray-600">Mood:</span>
-                <div className="text-lg font-bold">{analysis.mood || 'Unknown'}</div>
-              </div>
-              <div>
-                <span className="text-sm font-medium text-gray-600">Energy:</span>
-                <div className="text-lg font-bold">{analysis.energy || 'Unknown'}</div>
-              </div>
-            </div>
-          </div>
-        )}
-        
         {covers && covers.length > 0 && (
           <div className="bookshelf-showcase mb-16">
             <h2 className="text-2xl font-bold text-center mb-6">Your Album Collection</h2>
@@ -237,6 +218,30 @@ export default function Home() {
               covers={covers} 
               onCDClick={handleCDClick}
             />
+            
+            {/* Action Buttons */}
+            <div className="flex justify-center gap-4 mt-8">
+              <button
+                onClick={() => {
+                  if (covers.length > 0) {
+                    handleEdit(covers[0]);
+                  }
+                }}
+                className="bg-black hover:bg-gray-800 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+              >
+                Edit Image
+              </button>
+              <button
+                onClick={() => {
+                  if (covers.length > 0) {
+                    handleVisualizer(covers[0]);
+                  }
+                }}
+                className="bg-black hover:bg-gray-800 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+              >
+                Create Visualizer
+              </button>
+            </div>
           </div>
         )}
         
@@ -267,10 +272,11 @@ export default function Home() {
         />
       )}
       
-      {/* Music Visualizer */}
+      {/* Phone Visualizer */}
       {showVisualizer && selectedCover && (
-        <MusicVisualizer 
+        <PhoneVisualizer 
           cover={selectedCover}
+          audioFile={audioFile}
           onClose={() => setShowVisualizer(false)}
         />
       )}
